@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import NavBar from "@/components/navbar";
+import Providers from "@/components/providers";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,14 +22,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <body
-        className={cn(
-          "min-h-screen font-sans antialiased grainy",
-          fontSans.variable
-        )}
-      >
-        {children}
-      </body>
+      <Providers>
+        <body
+          className={cn(
+            "min-h-screen font-sans antialiased grainy",
+            fontSans.variable
+          )}
+        >
+          <NavBar />
+          {children}
+        </body>
+      </Providers>
     </html>
   );
 }
