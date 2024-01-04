@@ -4,6 +4,10 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import NavBar from "@/components/navbar";
 import Providers from "@/components/providers";
+import "react-loading-skeleton/dist/skeleton.css";
+
+
+
 
 export const fontSans = FontSans({
   subsets: ["latin"],
