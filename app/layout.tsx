@@ -5,9 +5,8 @@ import { cn } from "@/lib/utils";
 import NavBar from "@/components/navbar";
 import Providers from "@/components/providers";
 import "react-loading-skeleton/dist/skeleton.css";
-
-
-
+import "simplebar-react/dist/simplebar.min.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -33,6 +32,7 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
+          <Toaster />
           <NavBar />
           {children}
         </body>
