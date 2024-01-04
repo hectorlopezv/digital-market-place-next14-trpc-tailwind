@@ -1,13 +1,17 @@
-import { Cloud, File } from "lucide-react";
+"use client";
+import { Cloud, File, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { Progress } from "./ui/progress";
 import { useUploadThing } from "@/lib/upload-thing";
 import { useToast } from "./ui/use-toast";
+import { trpc } from "@/app/_trp-client/client";
+import { useRouter } from "next/navigation";
 type Props = {};
 
 export default function UploadDropZone({}: Props) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [uploadProgress, setUploadProgress] = useState(0);
   const { startUpload } = useUploadThing("pdfUploader");
   const { toast } = useToast();
@@ -24,6 +28,14 @@ export default function UploadDropZone({}: Props) {
     }, 500);
     return interval;
   };
+
+  const { mutate: startPolling } = trpc.getFile.useMutation({
+    onSuccess: (file) => {
+      router.push(`/dashboard/${file.id}`);
+    },
+    retry: true,
+    retryDelay: 500,
+  });
   return (
     <Dropzone
       multiple={false}
@@ -50,6 +62,7 @@ export default function UploadDropZone({}: Props) {
         }
         clearInterval(progressInterval);
         setUploadProgress(100);
+        startPolling({ key });
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => {
@@ -91,11 +104,28 @@ export default function UploadDropZone({}: Props) {
                 {loading ? (
                   <div className="w-full mt-4 max-w-xs mx-auto">
                     <Progress
+                      indicatorColor={
+                        uploadProgress === 100 ? "bg-green-500" : ""
+                      }
                       value={uploadProgress}
                       className="h-1 w-full bg-zinc-200"
                     />
+                    {uploadProgress === 100 ? (
+                      <div
+                        className="flex gap-1 items-center justify-center text-sm 
+                      text-zinc-700 text-center pt-2"
+                      >
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                        Redirecting...
+                      </div>
+                    ) : null}
                   </div>
                 ) : null}
+                <input
+                  {...getInputProps()}
+                  id="dropzone-file"
+                  className="hidden"
+                />
               </label>
             </div>
           </div>
