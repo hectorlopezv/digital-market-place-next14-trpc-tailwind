@@ -1,5 +1,5 @@
-import ChatWrapper from "@/components/chat-wrapper";
-import PdfRenderer from "@/components/pdf-renderer";
+import ChatWrapper from "@/components/chat/chat-wrapper";
+import PdfRenderer from "@/components/chat/pdf-renderer";
 import { db } from "@/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
@@ -37,7 +37,7 @@ export default async function FilePage({ params }: Props) {
           className="shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96
         lg:border-l lg:border-t-0"
         >
-          <ChatWrapper />
+          {file?.id ? <ChatWrapper fileId={file?.id} /> : null}
         </div>
       </div>
     </div>

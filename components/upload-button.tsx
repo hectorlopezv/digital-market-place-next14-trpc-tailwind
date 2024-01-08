@@ -2,27 +2,30 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import UploadDropZone from "./upload-dropzone";
+import UploadDropzone from "./upload-dropzone";
 
-type Props = {};
+type Props = {
+  isSubscribed: boolean;
+};
 
-export default function UploadButton({}: Props) {
-  const [isOpen, setisOpen] = useState(false);
+export default function UploadButton({ isSubscribed }: Props) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <Dialog
       open={isOpen}
       onOpenChange={(v) => {
         if (!v) {
-          setisOpen(v);
+          setIsOpen(v);
         }
       }}
     >
-      <DialogTrigger asChild onClick={() => setisOpen(true)}>
-        <Button>Upload Pdf</Button>
+      <DialogTrigger onClick={() => setIsOpen(true)} asChild>
+        <Button>Upload PDF</Button>
       </DialogTrigger>
+
       <DialogContent>
-        <UploadDropZone />
+        <UploadDropzone isSubscribed={isSubscribed} />
       </DialogContent>
     </Dialog>
   );

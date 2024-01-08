@@ -36,7 +36,7 @@ export default function DashBoardComponent({}: Props) {
       pb-5 sm:flex-row sm:items-center sm:gap-0"
       >
         <h1 className="mb-3 font-bold text-5xl text-gray-900">My Files</h1>
-        <UploadButton />
+        <UploadButton isSubscribed={false} />
       </div>
       {files && files?.length !== 0 ? (
         <ul
