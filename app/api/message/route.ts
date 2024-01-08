@@ -4,7 +4,7 @@ import { getPineconeClient } from "@/lib/integrations/pineconne";
 import { SendMessageValidator } from "@/lib/validators/send-message-validator";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { NextRequest } from "next/server";
 export const POST = async (req: NextRequest) => {
@@ -39,11 +39,11 @@ export const POST = async (req: NextRequest) => {
 
   // 1: vectorize message
   const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: process.env.OPENAI_API_KEY,
+    openAIApiKey: process.env.OPENAI_API_KEY!,
   });
 
   const pinecone = await getPineconeClient();
-  const pineconeIndex: any = pinecone.Index("quill");
+  const pineconeIndex: any = pinecone.Index("hector-quill");
 
   const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
     pineconeIndex,
