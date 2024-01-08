@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.resolve.alias.canvas = false;
-    config.resolve.alias.enconding = false;
-    return config;
-  },
   async redirects() {
     return [
       {
@@ -14,10 +9,16 @@ const nextConfig = {
       },
       {
         source: "/sign-up",
-        destination: "/api/auth/login",
+        destination: "/api/auth/register",
         permanent: true,
       },
     ];
+  },
+
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.resolve.alias.canvas = false;
+    config.resolve.alias.encoding = false;
+    return config;
   },
 };
 
