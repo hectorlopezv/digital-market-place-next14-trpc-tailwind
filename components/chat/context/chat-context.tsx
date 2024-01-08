@@ -51,7 +51,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
 
       return response.body;
     },
-    onMutate: async ({ message }) => {
+    onMutate: async ({ message }) => {// optimistic updates
       backupMessage.current = message;
       setMessage("");
 
