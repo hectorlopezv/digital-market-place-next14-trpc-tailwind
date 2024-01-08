@@ -7,9 +7,12 @@ import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { useState } from "react";
-type Props = {};
+import { getUserSubscriptionPlan } from "@/lib/integrations/stripe";
+type Props = {
+  subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>;
+};
 
-export default function DashBoardComponent({}: Props) {
+export default function DashBoardComponent({ subscriptionPlan }: Props) {
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
@@ -36,7 +39,7 @@ export default function DashBoardComponent({}: Props) {
       pb-5 sm:flex-row sm:items-center sm:gap-0"
       >
         <h1 className="mb-3 font-bold text-5xl text-gray-900">My Files</h1>
-        <UploadButton isSubscribed={false} />
+        <UploadButton isSubscribed={subscriptionPlan?.isSubscribed} />
       </div>
       {files && files?.length !== 0 ? (
         <ul
